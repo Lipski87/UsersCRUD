@@ -133,7 +133,7 @@
 
                                     <td>${user.id}</td>
 
-                                    <td>${user.userName}</td>
+                                    <td>${user.username}</td>
 
                                     <td>${user.email}</td>
 
@@ -141,7 +141,7 @@
 
                                         <a href='<c:url value="/user/delete?id=${user.id}"/>'>Usuń</a>
 
-                                        <a href='<c:url value="/user/edit?id=${user.id}"/>'>Edit</a>
+                                        <a href='<c:url value="/user/edit?id=${user.id}"/>'>Edycja</a>
 
                                         <a href='<c:url value="/user/show?id=${user.id}"/>'>Pokaż</a>
 

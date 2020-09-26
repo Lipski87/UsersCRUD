@@ -2,7 +2,6 @@ package pl.coderslab.entity;
 
 import pl.coderslab.utils.BCrypt;
 import pl.coderslab.utils.DBUtil;
-import pl.coderslab.utils.DBUtil_2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -85,7 +84,7 @@ public class UserDao {
     public User[] readAll() {
 
         try (Connection conn = DBUtil.getConnection()) {
-            User[] users = new User[1];
+            User[] users = new User[0];
             PreparedStatement statement =
                     conn.prepareStatement(SELECT_ALL_USERS_QUERY);
             ResultSet resultSet = statement.executeQuery();
