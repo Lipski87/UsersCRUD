@@ -1,5 +1,4 @@
 package pl.coderslab.entity;
-import java.lang.String;
 
 public class User {
 

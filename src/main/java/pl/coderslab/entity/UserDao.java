@@ -1,9 +1,14 @@
 package pl.coderslab.entity;
 
-import pl.coderslab.BCrypt;
-import pl.coderslab.DBUtil_2;
+import pl.coderslab.utils.BCrypt;
+import pl.coderslab.utils.DBUtil;
+import pl.coderslab.utils.DBUtil_2;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 
 public class UserDao {
@@ -19,7 +24,7 @@ public class UserDao {
     }
 
     public User create(User user) {
-        try (Connection conn = DBUtil_2.connect()) {
+        try (Connection conn = DBUtil.getConnection()) {
             PreparedStatement statement =
                     conn.prepareStatement(CREATE_USER_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getUsername());
@@ -41,7 +46,7 @@ public class UserDao {
     }
 
     public void update(User user) {
-        try (Connection conn = DBUtil_2.connect()) {
+        try (Connection conn = DBUtil.getConnection()) {
             PreparedStatement statement =
                     conn.prepareStatement(UPDATE_USER_QUERY);
             statement.setString(1, user.getUsername());
@@ -57,7 +62,7 @@ public class UserDao {
 
     public User read(int userId) {
 
-        try (Connection conn = DBUtil_2.connect()) {
+        try (Connection conn = DBUtil.getConnection()) {
             PreparedStatement statement =
                     conn.prepareStatement(SELECT_USER_QUERY);
             statement.setInt(1, userId);
@@ -79,10 +84,10 @@ public class UserDao {
 
     public User[] readAll() {
 
-        try (Connection conn = DBUtil_2.connect()) {
-            User[] users = new User[0];
+        try (Connection conn = DBUtil.getConnection()) {
+            User[] users = new User[1];
             PreparedStatement statement =
-                    conn.prepareStatement(SELECT_USER_QUERY);
+                    conn.prepareStatement(SELECT_ALL_USERS_QUERY);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -90,7 +95,7 @@ public class UserDao {
                 user.setEmail(resultSet.getString("email"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
-               // users = addToArray(user, users); - dokończ metodę addToArray
+                users = addToArray(user,users);
             }
                 return users;
 
@@ -100,10 +105,16 @@ public class UserDao {
         return null;
     }
 
-  //  public String[] addToArray (User user, User[] users) {}
+    public User[] addToArray (User user, User[] users) {
+
+        User[] newUsers = Arrays.copyOf(users,users.length+1);
+        newUsers[newUsers.length-1] = user;
+
+        return newUsers;
+      }
 
     public void remove(int userID) {
-        try (Connection conn = DBUtil_2.connect()) {
+        try (Connection conn = DBUtil.getConnection()) {
             PreparedStatement statement =
                     conn.prepareStatement(REMOVE_USER_QUERY);
             statement.setInt(1, userID);
