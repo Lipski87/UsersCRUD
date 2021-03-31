@@ -1,0 +1,1 @@
+**Users CRUD**- web app to manage users (Create, Read, Update, Delete). I built my project using Maven based on two design patterns: DAO and MVC. The data were loaded from a MySQL database with JDBC. I used Java EE (servlets) and put the app on Tomcat. I hashed users' passwords with JBCrypt. I adopted the templates from Bootstrap.
